@@ -18,6 +18,10 @@ func validateDateTime(_ context: Context, _ value: Any) -> AnySequence<Validatio
 
     let rfc3339DateTimeFormatter = DateFormatter()
 
+    /// Setting to a fixed locale because users can override the 12/24-hour format in the system settings, which causes DateFormatter to rewrite the format string
+    /// https://developer.apple.com/library/archive/qa/qa1480/_index.html
+    rfc3339DateTimeFormatter.locale = Locale(identifier: "en_US_POSIX")
+
     rfc3339DateTimeFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
     if rfc3339DateTimeFormatter.date(from: date) != nil {
       return AnySequence(EmptyCollection())
